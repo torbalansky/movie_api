@@ -1,16 +1,119 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Movie_API Documentation page</title>
+    <title>Movie_API Documentation</title>
+    <style>
+        table {
+          font-family: 'Lucida Sans', Verdana, sans-serif;
+          border-collapse: collapse;
+          font-size: 14px;
+          width: 100%;
+        }
+    
+        td, th {
+          border: 2px solid black;
+          text-align: center;
+          padding: 12px;
+        }
+    
+        tr:nth-child(even) {
+          background-color: lightgrey;
+        }
+
+        thead {
+            background-color: black;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            font-style: italic ;
+        }
+      </style>
 </head>
-    <body>
-        <header> 
-            <div>
-                <h1>Documentation page</h1>
-                <p>The task at hand involves developing the server-side module for a "movies" web application that aims to offer comprehensive information regarding various movies, directors, and genres to its users. 
-                This platform will enable users to register, modify their personal details, and compile a personalized collection of their preferred movies.</p>
-            </div>
-        </header>
+<body>
+ <header> 
+    <div>
+        <h1>Documentation page</h1>
+        <h3>This application is intended to guide you through the realm of the finest movies ever produced!</h3>
+        <ul>
+            <li>You can browse details about various movies, directors, and genres here.</li>
+            <li>You can also register, modify your personal information, and compile a list of your preferred movies.</li>
+        </ul>
+        <p>Table of the endpoints and their corresponding request methods:</p>
+    </div>
+</header>
+<table>
+    <thead>
+      <tr>
+        <th>Request</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Response</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Returns a list of all movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>A JSON object containing data about all movies</td>
+      </tr>
+      <tr>
+        <td>Returns data about a single movie by title</td>
+        <td>/movies/title</td>
+        <td>GET</td>
+        <td>A JSON object containing data about the movie's description, genre, director, image URL, and whether it's featured or not</td>
+      </tr>
+      <tr>
+        <td>Returns data about a genre by name</td>
+        <td>/movies/title/genreName</td>
+        <td>GET</td>
+        <td>A JSON object containing data about the genre's description</td>
+      </tr>
+      <tr>
+        <td>Returns data about a director by name</td>
+        <td>/movies/title/directorName</td>
+        <td>GET</td>
+        <td>A JSON object containing data about the director's bio, birth year, and death year</td>
+      </tr>
+      <tr>
+        <td>Allows new users to register</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>A text message indicating successful registration of the account</td>
+      </tr>
+      <tr>
+        <td>Allows users to add a movie to their list of favorites</td>
+        <td>/users/id/favoriteMovieTitle</td>
+        <td>POST</td>
+        <td>A text message indicating that the movie has been added to the user's list of favorites</td>
+      </tr>
+      <tr>
+        <td>Allows users to update their user info</td>
+        <td>/users/id</td>
+        <td>PUT</td>
+        <td>A text message indicating successful update of user info</td>
+      </tr>
+      <tr>
+        <td>Allows users to remove a movie from their list of favorites</td>
+        <td>/users/id/favoriteMovieTitle</td>
+        <td>DELETE</td>
+        <td>A text message indicating that the movie has been removed from the user's list of favorites</td>
+      </tr>
+      <tr>
+        <td>Allows existing users to deregister</td>
+        <td>/users/id</td>
+        <td>DELETE</td>
+        <td>A text message indicating successful deletion of the user account</td>
+      </tr>
+        </tbody>
+     </table>
     </body>
 </html>
