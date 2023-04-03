@@ -219,7 +219,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
   });
 });  
 
-pp.post('/users/:Username/movies/:movieTitle', (req, res) => {
+app.post('/users/:Username/movies/:movieTitle', (req, res) => {
   Users.findOneAndUpdate( { Name: req.params.Username },
     { $addToSet: { Favorites: req.params.movieTitle } },
     { new: true },
