@@ -141,7 +141,6 @@ app.post("/users/:Username/movies/:MovieID", (req, res) => {
   );
 });
 
-//DELETE
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
      $pull: { FavoriteMovies: req.params.MovieID }
@@ -172,15 +171,28 @@ app.delete('/users/:Username', (req, res) => {
     });
 });
 
-// UPDATE
+app.delete('/users/id/:id', (req, res) => {
+  Users.findOneAndRemove( {id: req.params.id })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
 app.put('/users/:Username', (req, res) => {
   Users.findByIdAndUpdate(req.params.Username, {
     $set: {
       Username: req.body.Username,
       Password: req.body.Password,
       Email: req.body.Email,
-      Birthday: req.body.Birthday,
-      FavoriteMovies: req.body.FavoriteMovies
+      Birthday: req.body.Birthday
     }
   }, { new: true })
     .then((updatedUser) => {
@@ -191,7 +203,6 @@ app.put('/users/:Username', (req, res) => {
       res.status(500).send('Error: ' + err);
     });
 });
-
 
 app.post('/users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
@@ -207,6 +218,22 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
     }
   });
 });  
+
+pp.post('/users/:Username/movies/:movieTitle', (req, res) => {
+  Users.findOneAndUpdate( { Name: req.params.Username },
+    { $addToSet: { Favorites: req.params.movieTitle } },
+    { new: true },
+    (err, updatedUser) => {
+      if(err) {
+        console.log(err);
+        res.status(500).send('Error ' + err)
+      } else {
+        console.log('Added only if movie does not already exist.')
+        res.status(200).json(updatedUser);
+      }
+    }
+    );
+});
 
 app.get('/documentation', (req, res) => {                  
   res.sendFile('public/documentation.html', { root: __dirname });
