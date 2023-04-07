@@ -157,27 +157,46 @@ app.post('/users',
 });
 
 //Update user
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    {
-      $set: {
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
-      }
-    },
-    { new: true }
-  )
-    .then((updatedUser) => {
+app.put(
+  "/users/:Username",
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric characters - not allowed."
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    const promise = Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Name: req.body.Name,
+          Password: hashedPassword,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
+      },
+      { new: true }
+    ) // This line makes sure that the updated document is returned
+      .exec();
+
+    promise.then((updatedUser) => {
       res.json(updatedUser);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
     });
-});
+  }
+);
 
 // Add a movie to the user's favorite list
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
