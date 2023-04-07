@@ -10,6 +10,8 @@ const mongoose = require('mongoose');
 const Models = require('./models');
 const Movies = Models.Movie;
 const Users = Models.User;
+const { check, validationResult } = require("express-validator"); // Requiring express-validator for server side input protection against hacker attacks
+
 
 app.use(express.static(path.join(__dirname, 'public'))); // Sets up a static file server
 app.use(morgan('tiny', { stream: accessLogStream })); // Add this line to use morgan with the 'tiny' logging format
@@ -18,9 +20,14 @@ app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middle
 
 mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
+const cors = require('cors');
+app.use(cors());
+
 let auth = require('./auth')(app);
+
 const passport = require('passport');
 require('./passport');
+
   
 // READ
 app.get('/', (req, res) => {
@@ -102,24 +109,43 @@ app.get('/users/:username', passport.authenticate('jwt', { session: false }), (r
 
 //CREATE
 // Create a new user
-app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ Username: req.body.Username })
+app.post('/users', 
+
+[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+],
+
+(req, res) => {
+
+// check the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  let hashedPassword = Users.hashPassword(req.body.Password);
+  Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
     .then((user) => {
       if (user) {
+        //If the user is found, send a response that it already exists
         return res.status(400).send(req.body.Username + 'already exists');
       } else {
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
-          .then((user) =>{res.status(201).json(user) })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send('Error: ' + error);
-        })
+          .then((user) => { res.status(201).json(user) })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          });
       }
     })
     .catch((error) => {
@@ -135,7 +161,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
     {
       $set: {
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       }
@@ -271,6 +297,7 @@ app.use((err, req, res, next) => {
   });
 
 // listen for requests
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });
