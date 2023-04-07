@@ -18,7 +18,9 @@ app.use(morgan('tiny', { stream: accessLogStream })); // Add this line to use mo
 app.use(bodyParser.json()); //Sets up body-parser middleware which is used to parse incoming request in JSON
 app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middleware which is used to parse incoming request in URL
 
-mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const cors = require('cors');
 app.use(cors());
