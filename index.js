@@ -163,7 +163,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
     {
       $set: {
         Username: req.body.Username,
-        Password: hashedPassword,
+        Password: req.body.Password,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       }
