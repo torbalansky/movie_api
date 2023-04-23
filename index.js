@@ -17,6 +17,12 @@ app.use(express.static(path.join(__dirname, 'public'))); // Sets up a static fil
 app.use(morgan('tiny', { stream: accessLogStream })); // Add this line to use morgan with the 'tiny' logging format
 app.use(bodyParser.json()); //Sets up body-parser middleware which is used to parse incoming request in JSON
 app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middleware which is used to parse incoming request in URL
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
