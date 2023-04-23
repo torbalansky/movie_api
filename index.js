@@ -23,7 +23,19 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 //mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const cors = require('cors');
-app.use(cors());
+const allowedOrigins = ['http://localhost:1234', 'http://localhost:8080', 'https://torbalansk-myflix-app.herokuapp.com/', 'https://myflix-torbalansky.netlify.app/'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 
 let auth = require('./auth')(app);
 
