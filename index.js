@@ -17,34 +17,13 @@ app.use(express.static(path.join(__dirname, 'public'))); // Sets up a static fil
 app.use(morgan('tiny', { stream: accessLogStream })); // Add this line to use morgan with the 'tiny' logging format
 app.use(bodyParser.json()); //Sets up body-parser middleware which is used to parse incoming request in JSON
 app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middleware which is used to parse incoming request in URL
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token");
-  next();
-});
 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const cors = require('cors');
-let allowedOrigins = [
-  'http://localhost:1234',
-  'http://localhost:8080',
-  'https://torbalansk-myflix-app.herokuapp.com/',
-  'https://myflix-torbalansky.netlify.app/'];
-
-  app.use(cors({
-    origin: (origin, callback) => {
-      if(!origin) return callback(null, true);
-      if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn't found on the list of allowed origins
-        let message = 'The CORS policy for this application doesn/t allow access from origin ' + origin;
-        return callback(new Error(message ), false);
-      }
-      return callback(null, true);
-    }
-  }));
+app.use(cors());
 
 let auth = require('./auth')(app);
 
