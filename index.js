@@ -29,7 +29,8 @@ let allowedOrigins = [
   'https://myflix-torbalansky.netlify.app',
   'https://torbalansk-myflix-app.herokuapp.com/',
   'http://localhost:4200',
-  'https://torbalansky.github.io/myFlix-Angular-client/'
+  'https://torbalansky.github.io/myFlix-Angular-client/',
+  'https://torbalansky.github.io'
 ];
 
 
