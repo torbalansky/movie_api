@@ -7,6 +7,15 @@ let Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
   ExtractJWT = passportJWT.ExtractJwt;
 
+/**
+ * Passport local strategy for authenticating users.
+ *
+ * @param {string} username - The username field.
+ * @param {string} password - The password field.
+ * @param {function} callback - The callback function.
+ * @returns {void}
+ */
+
 passport.use(new LocalStrategy({
   usernameField: 'Username',
   passwordField: 'Password'
@@ -32,6 +41,14 @@ passport.use(new LocalStrategy({
     return callback(null, user);
   });
 }));
+
+/**
+ * Passport JWT strategy for authenticating users with JSON Web Tokens.
+ *
+ * @param {Object} jwtPayload - The JWT payload.
+ * @param {function} callback - The callback function.
+ * @returns {void}
+ */
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
