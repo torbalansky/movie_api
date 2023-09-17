@@ -1,0 +1,5 @@
+[build]
+  functions = "index.js"
+
+[dev]
+  functionsPort = 8080
