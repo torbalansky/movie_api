@@ -50,6 +50,7 @@ const cors = require('cors');
 let allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:1234',
+  'https://movie-torbalansky.netlify.app/',
   'https://myflix-torbalansky.netlify.app',
   'https://torbalansk-myflix-app.herokuapp.com/',
   'http://localhost:4200',
