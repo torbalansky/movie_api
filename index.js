@@ -50,6 +50,9 @@ const cors = require('cors');
 let allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:1234',
+  'https://movie-api-torbalansky.vercel.app/',
+  'https://movie-api-rosy.vercel.app/',
+  'https://movie-api-git-master-torbalansky.vercel.app/',
   'https://myflix-torbalansky.netlify.app',
   'https://torbalansk-myflix-app.herokuapp.com/',
   'http://localhost:4200',
