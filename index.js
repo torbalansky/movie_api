@@ -8,6 +8,8 @@ const path = require('path');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
 const mongoose = require('mongoose');
 const Models = require('./models');
 const Movies = Models.Movie;
@@ -48,7 +50,6 @@ const cors = require('cors');
 let allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:1234',
-  'https://movie-api-git-master-torbalansky.vercel.app/',
   'https://myflix-torbalansky.netlify.app',
   'https://torbalansk-myflix-app.herokuapp.com/',
   'http://localhost:4200',
