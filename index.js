@@ -8,8 +8,6 @@ const path = require('path');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const bodyParser = require('body-parser');
-const fs = require('fs');
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
 const mongoose = require('mongoose');
 const Models = require('./models');
 const Movies = Models.Movie;
@@ -22,11 +20,11 @@ const { check, validationResult } = require("express-validator"); // Requiring e
 
 app.use(express.static(path.join(__dirname, 'public'))); // Sets up a static file server
 
-/**
- * Adds morgan middleware for logging.
- */
-
-app.use(morgan('tiny', { stream: accessLogStream })); // Add this line to use morgan with the 'tiny' logging format
+// Route that logs a message
+app.get('/example', (req, res) => {
+  console.log('This is a log message.');
+  res.send('Response from the server.');
+});
 
 /**
  * Sets up body-parser middleware for parsing JSON requests.
@@ -39,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middle
  * Connects to the MongoDB database.
  */
 const mongoURI = process.env.MONGODB_URI;
-mongoose.connect(`${mongoURI}/movies`, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 /**
