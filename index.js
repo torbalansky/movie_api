@@ -38,8 +38,8 @@ app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middle
 /**
  * Connects to the MongoDB database.
  */
-
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoURI = process.env.MONGODB_URI;
+mongoose.connect(`${mongoURI}/movies`, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 /**
