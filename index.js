@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middle
  */
 const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-
+mongoose.set('strictQuery', false);
 //mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 /**
  * Defines the allowed origins for CORS.
