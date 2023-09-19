@@ -49,6 +49,7 @@ let allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:1234',
   'https://movie-api-6-git-master-torbalansky.vercel.app',
+  'https://myflix-angular-client-torbalansky.netlify.app/',
   'https://movie-torbalansky.netlify.app/',
   'https://myflix-torbalansky.netlify.app',
   'https://torbalansk-myflix-app.herokuapp.com/',
