@@ -8,6 +8,8 @@ const path = require('path');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
 const mongoose = require('mongoose');
 const Models = require('./models');
 const Movies = Models.Movie;
@@ -20,11 +22,11 @@ const { check, validationResult } = require("express-validator"); // Requiring e
 
 app.use(express.static(path.join(__dirname, 'public'))); // Sets up a static file server
 
-// Route that logs a message
-app.get('/example', (req, res) => {
-  console.log('This is a log message.');
-  res.send('Response from the server.');
-});
+/**
+ * Adds morgan middleware for logging.
+ */
+
+app.use(morgan('tiny', { stream: accessLogStream })); // Add this line to use morgan with the 'tiny' logging format
 
 /**
  * Sets up body-parser middleware for parsing JSON requests.
@@ -36,9 +38,9 @@ app.use(bodyParser.urlencoded({ extended: true })); //Sets up body-parser middle
 /**
  * Connects to the MongoDB database.
  */
-const mongoURI = process.env.MONGODB_URI;
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.set('strictQuery', false);
+
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
 //mongoose.connect('mongodb://127.0.0.1:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 /**
  * Defines the allowed origins for CORS.
@@ -48,14 +50,11 @@ const cors = require('cors');
 let allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:1234',
-  'https://movie-api-6-git-master-torbalansky.vercel.app',
-  'https://myflix-angular-client-torbalansky.netlify.app',
-  'https://main--myflix-angular-client-torbalansky.netlify.app',
   'https://movie-torbalansky.netlify.app/',
   'https://myflix-torbalansky.netlify.app',
   'https://torbalansk-myflix-app.herokuapp.com/',
   'http://localhost:4200',
-  'https://torbalansky.github.io/myFlix-Angular-client',
+  'https://torbalansky.github.io/myFlix-Angular-client/',
   'https://torbalansky.github.io'
 ];
 
@@ -64,7 +63,14 @@ let allowedOrigins = [
  */
 
 app.use(cors({
-  origin: '*'
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn't found on the list of allowed origins
+      let message = 'The CORS policy for this application does not allow access from origin ' + origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
 }));
 
 /**
