@@ -65,11 +65,19 @@ let allowedOrigins = [
  * Configures CORS middleware.
  */
 
+// Add logging middleware
+app.use((req, res, next) => {
+  console.log('Request received from origin:', req.headers.origin);
+  next();
+});
+
 app.use(cors({
   origin: (origin, callback) => {
+    console.log('Checking origin:', origin);
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn't found on the list of allowed origins
+    if (allowedOrigins.indexOf(origin) === -1) {
       let message = 'The CORS policy for this application does not allow access from origin ' + origin;
+      console.log(message);
       return callback(new Error(message), false);
     }
     return callback(null, true);
