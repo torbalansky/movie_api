@@ -50,6 +50,7 @@ let allowedOrigins = [
   'http://localhost:1234',
   'https://movie-api-6-git-master-torbalansky.vercel.app',
   'https://movie-api-eqfh-git-master-torbalansky.vercel.app',
+  'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app',
   'https://myflix-angular-client-torbalansky.netlify.app',
   'https://main--myflix-angular-client-torbalansky.netlify.app',
   'https://movie-torbalansky.netlify.app/',
@@ -64,8 +65,16 @@ let allowedOrigins = [
  * Configures CORS middleware.
  */
 
-app.use(cors()); // Allow all origins
-
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn't found on the list of allowed origins
+      let message = 'The CORS policy for this application does not allow access from origin ' + origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 /**
  * Sets up authentication middleware.
