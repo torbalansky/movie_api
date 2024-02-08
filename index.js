@@ -45,16 +45,36 @@ mongoose.set('strictQuery', false);
  */
 
 const cors = require('cors');
+let allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'https://movie-api-6-git-master-torbalansky.vercel.app',
+  'https://movie-api-eqfh-git-master-torbalansky.vercel.app',
+  'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app',
+  'https://myflix-angular-client-torbalansky.netlify.app',
+  'https://main--myflix-angular-client-torbalansky.netlify.app',
+  'https://movie-torbalansky.netlify.app/',
+  'https://myflix-torbalansky.netlify.app',
+  'https://torbalansk-myflix-app.herokuapp.com/',
+  'http://localhost:4200',
+  'https://torbalansky.github.io/myFlix-Angular-client',
+  'https://torbalansky.github.io'
+];
 
-app.use(cors());
+/**
+ * Configures CORS middleware.
+ */
 
-// Set up additional headers to allow cross-origin requests
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace '*' with the specific origin of your React application if needed
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn't found on the list of allowed origins
+      let message = 'The CORS policy for this application does not allow access from origin ' + origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 /**
  * Sets up authentication middleware.
