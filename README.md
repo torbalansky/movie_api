@@ -6,7 +6,7 @@ Users can perform various actions, including registration, login, accessing movi
 
 ### API Endpoints and CORS
 
-The API is hosted at [https://movie-api-6-git-master-torbalansky.vercel.app/](https://movie-api-6-git-master-torbalansky.vercel.app/).
+The API is hosted at [https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/](https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/).
 
 For detailed information on API endpoints and CORS configurations, please visit the [Documentation Page](https://movie-api-6-git-master-torbalansky.vercel.app/documentation).
 
