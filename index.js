@@ -45,44 +45,8 @@ mongoose.set('strictQuery', false);
  */
 
 const cors = require('cors');
-let allowedOrigins = [
-  'http://localhost:8080',
-  'http://localhost:1234',
-  'https://movie-api-6-git-master-torbalansky.vercel.app',
-  'https://movie-api-eqfh-git-master-torbalansky.vercel.app',
-  'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app',
-  'https://myflix-angular-client-torbalansky.netlify.app',
-  'https://main--myflix-angular-client-torbalansky.netlify.app',
-  'https://movie-torbalansky.netlify.app/',
-  'https://myflix-torbalansky.netlify.app',
-  'https://torbalansk-myflix-app.herokuapp.com/',
-  'http://localhost:4200',
-  'https://torbalansky.github.io/myFlix-Angular-client',
-  'https://torbalansky.github.io'
-];
 
-/**
- * Configures CORS middleware.
- */
-
-// Add logging middleware
-app.use((req, res, next) => {
-  console.log('Request received from origin:', req.headers.origin);
-  next();
-});
-
-app.use(cors({
-  origin: (origin, callback) => {
-    console.log('Checking origin:', origin);
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      let message = 'The CORS policy for this application does not allow access from origin ' + origin;
-      console.log(message);
-      return callback(new Error(message), false);
-    }
-    return callback(null, true);
-  }
-}));
+app.use(cors());
 
 /**
  * Sets up authentication middleware.
