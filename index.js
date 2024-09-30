@@ -44,63 +44,64 @@ mongoose.set('strictQuery', false);
  * Defines the allowed origins for CORS.
  */
 
-// const cors = require('cors');
-// let allowedOrigins = [
-  // 'http://localhost:8080',
-  // 'http://localhost:1234',
-  // 'http://localhost:4200/',
-  // 'https://movie-api-6-git-master-torbalansky.vercel.app',
-  // 'https://movie-api-eqfh-git-master-torbalansky.vercel.app',
-  // 'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app',
- // 'https://myflix-angular-client-torbalansky.netlify.app',
-//  'https://main--myflix-angular-client-torbalansky.netlify.app',
- // 'https://movie-torbalansky.netlify.app/',
-//  'https://myflix-torbalansky.netlify.app',
- // 'https://torbalansk-myflix-app.herokuapp.com/',
- // 'http://localhost:4200',
- // 'https://torbalansky.github.io/myFlix-Angular-client',
- // 'https://torbalansky.github.io',
- // 'https://movie-api-eqfh.vercel.app/',
-//  'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/'
-//];
+const cors = require('cors');
+let allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'http://localhost:4200/',
+  'https://movie-api-6-git-master-torbalansky.vercel.app',
+  'https://movie-api-eqfh-git-master-torbalansky.vercel.app',
+  'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app',
+  'https://myflix-angular-client-torbalansky.netlify.app',
+  'https://main--myflix-angular-client-torbalansky.netlify.app',
+  'https://movie-torbalansky.netlify.app/',
+  'https://myflix-torbalansky.netlify.app',
+  'https://torbalansk-myflix-app.herokuapp.com/',
+  'http://localhost:4200',
+  'https://torbalansky.github.io/myFlix-Angular-client',
+  'https://torbalansky.github.io',
+  'https://movie-api-eqfh.vercel.app/',
+  'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/',
+  'movie-api-eqfh-fqe1dt6ds-torbalanskys-projects.vercel.app'
+];
 
 /**
  * Configures CORS middleware.
  */
 
-// app.use(cors({
-  // origin: (origin, callback) => {
+app.use(cors({
+  origin: (origin, callback) => {
     // If no origin is provided (like in non-browser requests), allow the request
-   // if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true);
 
     // Check if the origin is in the allowedOrigins array
-  //  if (allowedOrigins.indexOf(origin) === -1) {
+    if (allowedOrigins.indexOf(origin) === -1) {
       // If the origin is not found in the allowedOrigins list, block it
-   //   const message = `The CORS policy for this application does not allow access from origin ${origin}`;
-   //   return callback(new Error(message), false);
-    // }
+      const message = `The CORS policy for this application does not allow access from origin ${origin}`;
+      return callback(new Error(message), false);
+    }
     // If the origin is allowed, allow the request
-   // return callback(null, true);
-  //},
- // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
- // allowedHeaders: ['Content-Type', 'Authorization'],
- // credentials: true
-// }));
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 // Handle preflight (OPTIONS) requests globally
-// app.options('*', cors({
-  // origin: (origin, callback) => {
-   // if (!origin) return callback(null, true);
-  //  if (allowedOrigins.indexOf(origin) === -1) {
-  //    const message = `The CORS policy does not allow access from origin ${origin}`;
-   //   return callback(new Error(message), false);
-   // }
-  //  return callback(null, true);
- // },
-//  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//  allowedHeaders: ['Content-Type', 'Authorization'],
-//  credentials: true
-// }));
+app.options('*', cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const message = `The CORS policy does not allow access from origin ${origin}`;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 
 /**
