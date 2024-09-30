@@ -58,7 +58,8 @@ let allowedOrigins = [
   'https://torbalansk-myflix-app.herokuapp.com/',
   'http://localhost:4200',
   'https://torbalansky.github.io/myFlix-Angular-client',
-  'https://torbalansky.github.io'
+  'https://torbalansky.github.io',
+  'https://movie-api-eqfh.vercel.app/'
 ];
 
 /**
