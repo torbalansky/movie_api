@@ -48,6 +48,7 @@ const cors = require('cors');
 let allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:1234',
+  'http://localhost:4200/',
   'https://movie-api-6-git-master-torbalansky.vercel.app',
   'https://movie-api-eqfh-git-master-torbalansky.vercel.app',
   'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app',
