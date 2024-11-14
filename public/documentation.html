@@ -1,119 +1,709 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Movie_API Documentation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MyFlix Movie API Documentation</title>
+
     <style>
-        table {
-          font-family: 'Lucida Sans', Verdana, sans-serif;
-          border-collapse: collapse;
-          font-size: 14px;
-          width: 100%;
-        }
-    
-        td, th {
-          border: 2px solid black;
-          text-align: center;
-          padding: 12px;
-        }
-    
-        tr:nth-child(even) {
-          background-color: lightgrey;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
         }
 
-        thead {
-            background-color: black;
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .left-section {
+            width: 30%;
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .left-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .left-section ul li {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #e9ecef;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .left-section ul li:hover,
+        .left-section ul li.active {
+            background-color: #007bff;
             color: white;
         }
 
-        h1 {
+        .right-section {
+            width: 70%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .content-title {
+            margin-top: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .endpoint {
+            margin-bottom: 20px;
+        }
+
+        .method {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
             text-align: center;
         }
 
-        p {
-            text-align: center;
-            font-style: italic ;
+        .footer a {
+            color: white;
+            text-decoration: none;
         }
-      </style>
+
+        ul li.active {
+            background-color: #343a40 !important;
+            color: green;
+            font-weight: bold;
+            background-color: #f0f0f0;
+        }
+
+        #OVERVIEW {
+            background-color: rgb(170, 190, 250) !important;
+            color: black;
+            cursor: pointer;
+        }
+
+        #OVERVIEW:hover {
+            background-color: lightgreen !important; 
+          }
+
+          table {
+            border: 1px solid gray;
+            padding: 0;
+            font-size: 14px;
+          }
+
+          thead {
+            font-size: 16px;
+            background-color: #343a40;
+            color: #e9ecef;
+          }
+
+          a {
+            text-decoration: none !important;
+            color: rgb(5, 147, 182) !important;
+          }
+
+    </style>
 </head>
 <body>
- <header> 
-    <div>
-        <h1>Documentation page</h1>
-        <h3>This application is intended to guide you through the realm of the finest movies ever produced!</h3>
-        <ul>
-            <li>You can browse details about various movies, directors, and genres here.</li>
-            <li>You can also register, modify your personal information, and compile a list of your preferred movies.</li>
-        </ul>
-        <p>Table of the endpoints and their corresponding request methods:</p>
+
+    <header>
+        <div>
+            <h1>&#x2752; MyFlix Movie API Documentation</h1>
+        </div>
+    </header>
+    <div class="main-content">
+        <div class="left-section">
+            <h3>API Methods</h3>
+            <ul>
+                <li id="OVERVIEW" class="active" onclick="loadContent('OVERVIEW')">Overview</li>              
+                <li id="GET" onclick="loadContent('GET')">GET</li>
+                <li id="POST" onclick="loadContent('POST')">POST</li>
+                <li id="PUT" onclick="loadContent('PUT')">PUT</li>
+                <li id="DELETE" onclick="loadContent('DELETE')">DELETE</li>
+                <li id="Postman" onclick="loadContent('Postman')">Postman Testing</li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div id="content">
+                <h2 class="content-title" id="default-content">Overview</h2>
+                <p>Welcome to the MyFlix Movie API documentation. Here, you can find all the necessary information to interact with our API. Below is an overview of all available endpoints.</p>
+
+                <table cellpadding="8" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Request</th>
+                            <th>URL</th>
+                            <th>HTTP Method</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Returns a list of all movies</td>
+                        <td>/movies</td>
+                        <td>GET</td>
+                        <td>A JSON object containing data about all movies</td>
+                    </tr>
+                    <tr>
+                        <td>Returns data about a single movie by title</td>
+                        <td>/movies/title/:Title</td>
+                        <td>GET</td>
+                        <td>A JSON object containing data about the movie's description, genre, director, image URL, and whether it's featured or not</td>
+                    </tr>
+                    <tr>
+                        <td>Returns data about a genre by name</td>
+                        <td>/movies/genre/:genreName</td>
+                        <td>GET</td>
+                        <td>A JSON object containing data about the genre's description</td>
+                    </tr>
+                    <tr>
+                        <td>Returns data about a director by name</td>
+                        <td>/movies/directors/:directorName</td>
+                        <td>GET</td>
+                        <td>A JSON object containing data about the director's bio</td>
+                    </tr>
+                    <tr>
+                        <td>Returns a list of all users</td>
+                        <td>/users</td>
+                        <td>GET</td>
+                        <td>A JSON object containing data about all users</td>
+                    </tr>
+                    <tr>
+                        <td>Returns data about a specific user</td>
+                        <td>/users/:username</td>
+                        <td>GET</td>
+                        <td>A JSON object containing data about the user's username, email, password, birthday, and the list of favorite movies if there are any</td>
+                    </tr>
+                    <tr>
+                        <td>Allows new users to register</td>
+                        <td>/users</td>
+                        <td>POST</td>
+                        <td>A JSON object indicating successful registration of the account</td>
+                    </tr>
+                    <tr>
+                        <td>Allows users to add a movie to their list of favorites</td>
+                        <td>/users/:Username/movies/:MovieID</td>
+                        <td>POST</td>
+                        <td>A JSON object indicating that the movie has been added to the user's list of favorites</td>
+                    </tr>
+                    <tr>
+                        <td>Allows users to update their user info</td>
+                        <td>/users/:Username</td>
+                        <td>PUT</td>
+                        <td>A JSON object indicating successful update of user info</td>
+                    </tr>
+                    <tr>
+                        <td>Allows users to remove a movie from their list of favorites</td>
+                        <td>/users/:Username/movies/:MovieID</td>
+                        <td>DELETE</td>
+                        <td>A JSON object indicating that the movie has been removed from the user's list of favorites</td>
+                    </tr>
+                    <tr>
+                        <td>Allows existing users to deregister</td>
+                        <td>/users/:Username</td>
+                        <td>DELETE</td>
+                        <td>A text message indicating successful deletion of the user account</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</header>
-<table>
-    <thead>
-      <tr>
-        <th>Request</th>
-        <th>URL</th>
-        <th>HTTP Method</th>
-        <th>Response</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Returns a list of all movies</td>
-        <td>/movies</td>
-        <td>GET</td>
-        <td>A JSON object containing data about all movies</td>
-      </tr>
-      <tr>
-        <td>Returns data about a single movie by title</td>
-        <td>/movies/title</td>
-        <td>GET</td>
-        <td>A JSON object containing data about the movie's description, genre, director, image URL, and whether it's featured or not</td>
-      </tr>
-      <tr>
-        <td>Returns data about a genre by name</td>
-        <td>/movies/title/genreName</td>
-        <td>GET</td>
-        <td>A JSON object containing data about the genre's description</td>
-      </tr>
-      <tr>
-        <td>Returns data about a director by name</td>
-        <td>/movies/title/directorName</td>
-        <td>GET</td>
-        <td>A JSON object containing data about the director's bio, birth year, and death year</td>
-      </tr>
-      <tr>
-        <td>Allows new users to register</td>
-        <td>/users</td>
-        <td>POST</td>
-        <td>A text message indicating successful registration of the account</td>
-      </tr>
-      <tr>
-        <td>Allows users to add a movie to their list of favorites</td>
-        <td>/users/id/favoriteMovieTitle</td>
-        <td>POST</td>
-        <td>A text message indicating that the movie has been added to the user's list of favorites</td>
-      </tr>
-      <tr>
-        <td>Allows users to update their user info</td>
-        <td>/users/id</td>
-        <td>PUT</td>
-        <td>A text message indicating successful update of user info</td>
-      </tr>
-      <tr>
-        <td>Allows users to remove a movie from their list of favorites</td>
-        <td>/users/id/favoriteMovieTitle</td>
-        <td>DELETE</td>
-        <td>A text message indicating that the movie has been removed from the user's list of favorites</td>
-      </tr>
-      <tr>
-        <td>Allows existing users to deregister</td>
-        <td>/users/id</td>
-        <td>DELETE</td>
-        <td>A text message indicating successful deletion of the user account</td>
-      </tr>
-        </tbody>
-     </table>
-    </body>
+    <div class="footer">
+        <p>If you have any questions, feel free to <a href="mailto:digilabsrs@gmail.com">email me</a>.</p>
+    </div>
+
+    <script>
+        function loadContent(method) {
+            const contentDiv = document.getElementById('content', 'default-content');
+            const methods = ['GET', 'POST', 'PUT', 'DELETE', 'Postman'];
+            methods.forEach(m => document.getElementById(m).classList.remove('active'));
+            document.getElementById(method).classList.add('active');
+        let content = '';
+
+        switch (method) {
+            case 'GET':
+                content = `<div id="content">
+                    <h3>GET Method</h3>
+                    <p><b>GET /movies</b> - Retrieve a list of all movies from the database.</p>
+                    <pre>
+                    [    
+                      {       
+                              "Genre": { "Name": "Sci-Fi", "Description": "Movies set in futuristic worlds." },
+                              "Director": { "Name": "Christopher Nolan", "Bio": "A well-known director...." },
+                              "id": "66fafddb282a63d1a4eb3316",
+                              "Title": "Inception",
+                              "Description": "A mind-bending thriller where dreams can be manipulated.",
+                              "Actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"],
+                              "ImagePath": "path/to/inception-image.jpg",
+                              "Featured": true
+                          },
+                          {
+                              "Genre": { "Name": "Comedy", "Description": "Films primarily ..." },
+                              "Director": { "Name": "Wes Anderson", "Bio": "Known for ...." },
+                              "id": "88fafddb282a63d1a4eb1111",
+                              "Title": "The Grand Budapest Hotel",
+                              "Description": "A quirky comedy about a hotel concierge and....",
+                              "Actors": ["Ralph Fiennes", "F. Murray Abraham"],
+                              "ImagePath": "path/to/grand-budapest-image.jpg",
+                              "Featured": true
+                        }     
+                    ]
+                      </pre>
+
+                          <h3>GET /movies/title/:Title</h3>
+                          <p><b>GET /movies/title/:Title</b> - Retrieve a specific movie by its title.</p>
+                          <pre>Example: <code>/movies/title/Inception</code></pre>
+                          <p>Response:</p>
+                          <pre>
+                          {
+                              "Genre": { "Name": "Sci-Fi", "Description": "Movies set in futuristic worlds." },
+                              "Director": { "Name": "Christopher Nolan", "Bio": "A renowned director." },
+                              "id": "66fafddb282a63d1a4eb3316",
+                              "Title": "Inception",
+                              "Description": "A mind-bending thriller where dreams can be manipulated.",
+                              "Actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"],
+                              "ImagePath": "path/to/inception-image.jpg",
+                              "Featured": true
+                          }
+                          </pre>
+
+                          <h3>GET /movies/genre/:genreName</h3>
+                          <p><b>GET /movies/genre/:genreName</b> - Retrieve movies by genre. Replace <code>:genreName</code> with the genre name.</p>
+                          <pre>Example: <code>/movies/genre/Comedy</code></pre>
+                          <p>Response:</p>
+                          <pre>
+                              {
+                                  "Name": "Comedy", 
+                                  "Description": "Films primarily focused on humor." }
+                              }
+                          </pre>
+
+                          <h3>GET /movies/directors/:directorName</h3>
+                          <p><b>GET /movies/directors/:directorName</b> - Retrieve movies by a director. Replace <code>:directorName</code> with the director’s name.</p>
+                          <pre>Example: <code>/movies/directors/Francis%20Ford%20Coppola</code></pre>
+                          <p>Response:</p>
+                          <pre>
+                              {
+                                  "Name": "Francis Ford Coppola", 
+                                  "Bio": "Legendary director known for films like 'The Godfather'." 
+                              }
+                          </pre>
+
+                          <h3>GET /users</h3>
+                          <p><b>GET /users</b> - Retrieve all registered users.</p>
+                          <pre>
+                          [
+                              {
+                                  "_id": "1115c8c56a7bfa86cb30164a",
+                                  "Username": "Pandora",
+                                  "Password": "$2b$10$fX6Q3iW6kDxY",
+                                  "Email": "pandora@avatar.com",
+                                  "Birthday": "1980-11-11T00:00:00.000Z",
+                                  "FavoriteMovies": []
+                              },
+                              {
+                                  "_id": "555d7e8f4b012ef0ac81253",
+                                  "Username": "johndoe",
+                                  "Password": "$2b$10$fX6Q3iW6kDxY",
+                                  "Email": "johndoe@example.com",
+                                  "Birthday": "1990-01-01T00:00:00.000Z",
+                                  "FavoriteMovies": []
+                              }
+                          ]
+                          </pre>
+
+                          <h3>GET /users/:username</h3>
+                          <p><b>GET /users/:username</b> - Retrieve a specific user by username.</p>
+                          <pre>Example: <code>/users/johndoe</code></pre>
+                          <p>Response:</p>
+                          <pre>
+                          {
+                              "_id": "555d7e8f4b012ef0ac81253",
+                              "Username": "johndoe",
+                              "Password": "$2b$10$fX6Q3iW6kDxY",
+                              "Email": "johndoe@example.com",
+                              "Birthday": "1990-01-01T00:00:00.000Z",
+                              "FavoriteMovies": []
+                          }
+                          </pre>
+                `;
+                break;
+
+                case 'POST':
+                    content = `
+                        <h3>POST Method</h3>
+                        <p><b>POST /users</b> - Register a new user by providing username, password, email, and birthday.</p>
+                        <pre>
+                          {
+                            "Username": "john5",
+                            "Password": "strongpassword",
+                            "Email": "john@example.com",
+                            "Birthday": "1990-01-01"
+                          }</pre>
+                        <h3>POST /users/:Username/movies/:MovieID</h3>
+                        <p>Add a movie to the user’s favorites by providing the user's ID and the movie's ID.</p>
+                        <pre>Example: POST /users/john5/movies/44adf5b62a34c72e9a5bb71d</pre>
+                        <pre>Example: POST /users/john5/movies/92b1a6d6c1c3b72b74b8878d</pre>
+                        <p>The above will result in the following:</p>
+                        <pre>
+                          {
+                            "Username": "john5",
+                            "Password": "strongpassword",
+                            "Email": "john@example.com",
+                            "Birthday": "1990-01-01",
+                            "FavoriteMovies": ["44adf5b62a34c72e9a5bb71d", 
+                            "92b1a6d6c1c3b72b74b8878d"]
+                          }       
+                        </pre>
+                        `;
+                    break;
+
+                case 'PUT':
+                    content = `
+                        <h3>PUT Method</h3>
+                        <p><b>PUT /users/:Username</b> - Update user info by providing updated fields in JSON format.</p>
+                        <pre>Example: PUT /users/john5</pre>
+                        <pre>
+                          {
+                            "Username": "newusername",
+                            "Password": "newpass",
+                            "Email": "newemail@example.com",
+                          }</pre>
+                        <p>The above will result in the following:</p>
+                        <pre>
+                          {
+                            "Username": "newusername",
+                            "Password": "newpass",
+                            "Email": "newemail@example.com",
+                            "Birthday": "1990-01-01",
+                            "FavoriteMovies": ["44adf5b62a34c72e9a5bb71d", 
+                            "92b1a6d6c1c3b72b74b8878d"]
+                          }</pre>
+
+                        <p> This updates any fields provided.</p>`;
+                    break;
+
+                case 'DELETE':
+                    content = `
+                        <h3>DELETE Method</h3>
+                        <p><b>DELETE  /users/:Username</b></p>
+                        <pre>Example: DELETE /users/12345</pre>
+                        <pre>Output: 12345 was deleted.</pre>
+                        <p><b>DELETE /users/:Username/movies/:MovieID</b> - Remove a specific movie from the user's favorites.</p>
+                        <pre>Example: DELETE /users/john/movies/92b1a6d6c1c3b72b74b8878d</pre>
+                        <p>The above will result in removing the movie with ID:"92b1a6d6c1c3b72b74b8878d", you can then check the user info and make sure of it:</p>
+                        <pre>
+                          {
+                            "Username": "john",
+                            "Password": "123456789",
+                            "Email": "john5@example.com",
+                            "Birthday": "1990-01-01",
+                            "FavoriteMovies": ["44adf5b62a34c72e9a5bb71d"]
+                          }        
+                        </pre>`;
+                    break;
+
+                    case 'Postman':
+                      content = `
+                          <h2 class="content-title">Postman Testing</h2>
+                          <p>This section provides step-by-step instructions on how to test the MyFlix Movie API using Postman.</p>
+
+                          <h3>Getting Started with Postman</h3>
+                          <p>Before beginning, ensure you have Postman installed. You can download it from the <a href="https://www.postman.com/downloads/">Postman website</a>. After installation, open Postman and follow the steps below to test the API endpoints.</p>
+                          <h2>CRUD Operations for Users in Postman</h2>
+
+                          <h3>Adding a New User (Create)</h3>
+                          <p>To add a new user to the MyFlix database, you need to send a <b>POST</b> request to the <code>/users</code> endpoint with the following JSON body:</p>
+                          <pre>
+                                    {
+                                        "Username": "JohnSnow",
+                                        "Password": "password",
+                                        "Email": "john@example.com",
+                                        "Birthday": "1960-01-01"
+                                    }
+                          </pre>
+                          <p>Follow the steps below to add a new user in Postman:</p>
+                          <ol>
+                              <li>
+                                  <b>Step 1:</b> Open Postman and select <b>POST</b> as the request type from the dropdown menu. In the URL field, enter the API endpoint for user registration:
+                                  <pre>http://yourapiurl.com/users</pre>
+                                  (replace <code>http://yourapiurl.com</code> with the actual base URL of your API).
+                              </li>
+                              <li>
+                                  <b>Step 2:</b> Click on the <b>Body</b> tab below the URL field. Under Body, select <b>raw</b> and set the format to <b>JSON</b> from the dropdown menu on the right.
+                                  <p><img src="img/postman_1.png" alt="Postman Body Tab" style="width: 100%; max-width: 600px;" /></p>
+                              </li>
+                              <li>
+                                  <b>Step 3:</b> In the JSON input area, enter the user data as shown above:
+                                  <pre>
+                                    {
+                                        "Username": "JohnSnow",
+                                        "Password": "password",
+                                        "Email": "john@example.com",
+                                        "Birthday": "1960-01-01"
+                                    }
+                                  </pre>
+                                  <p><img src="img/postman_new_user.png" alt="Postman JSON Body" style="width: 100%; max-width: 600px;" /></p>
+                              </li>
+                              <li>
+                                  <b>Step 4:</b> Click the <b>Send</b> button to submit the request. If successful, you should receive a response indicating that the user has been added to the database.
+                                  <p><img src="img/postman_2.png" alt="Postman Response" style="width: 100%; max-width: 600px;" /></p>
+                              </li>
+                          </ol>
+
+                          <h3>Get Specific User (Read)</h3>
+                          <p>To get the details of a specific user, you need to send a <b>GET</b> request to the <code>/users/{username}</code> endpoint. Replace <code>{username}</code> with the actual username of the user you want to retrieve.</p>
+                          <pre>
+                          GET http://yourapiurl.com/users/JohnSnow
+                          </pre>
+                          <p>Steps in Postman:</p>
+                          <ol>
+                              <li><b>Step 1:</b> Open Postman and select <b>GET</b> as the request type.</li>
+                              <li><b>Step 2:</b> In the URL field, enter the following API endpoint, replacing <code>JohnSnow</code> with the desired username:
+                                  <pre>http://yourapiurl.com/users/JohnSnow</pre>
+                              </li>
+                              <li><b>Step 3:</b> Click <b>Send</b> to retrieve the user's details. If the user exists, you will receive a response with their information.</li>
+                              <li><b>Step 4:</b> The response should include details about the user like:
+                                  <p><img src="img/postman_3.png" alt="Postman Response" style="width: 100%; max-width: 600px;" /></p>
+                              </li>
+                          </ol>
+
+                          <h3>Update User (Update)</h3>
+                          <p>To update an existing user's details, you need to send a <b>PUT</b> request to the <code>/users/{username}</code> endpoint. In this example, we are updating the user's username, email, password, and birthday:</p>
+                          <pre>
+                                {
+                                    "Username": "torbalan", 
+                                    "Password": "torbalan123456789",
+                                    "Email": "polen4@example.com",
+                                    "Birthday": "1963-04-04"
+                                }
+                          </pre>
+                          <p>Steps in Postman:</p>
+                          <ol>
+                              <li><b>Step 1:</b> Open Postman and select <b>PUT</b> as the request type.</li>
+                              <li><b>Step 2:</b> In the URL field, enter the endpoint for updating the user's details:
+                                  <pre>http://yourapiurl.com/users/JohnSnow</pre>
+                              </li>
+                              <li><b>Step 3:</b> Click on the <b>Body</b> tab and select <b>raw</b>. Choose <b>JSON</b> as the format. Enter the updated details for the user as shown above.</li>
+                              <li><b>Step 4:</b> Click <b>Send</b> to submit the request. You should receive a response indicating that the user's details have been updated:
+                                   <p><img src="img/postman_4.png" alt="Postman Response" style="width: 100%; max-width: 600px;" /></p>
+                              </li>
+                          </ol>
+
+                          <h3>Delete a User (Delete)</h3>
+                          <p>To delete a user from the MyFlix database, you need to send a <b>DELETE</b> request to the <code>/users/{username}</code> endpoint. Replace <code>{username}</code> with the username of the user you wish to delete.</p>
+                          <pre>
+                          DELETE http://yourapiurl.com/users/username
+                          </pre>
+                          <p>Steps in Postman:</p>
+                          <ol>
+                              <li><b>Step 1:</b> Open Postman and select <b>DELETE</b> as the request type.</li>
+                              <li><b>Step 2:</b> In the URL field, enter the following endpoint to delete the user:
+                                  <pre>http://yourapiurl.com/users/torbalan</pre>
+                              </li>
+                              <li><b>Step 3:</b> Click <b>Send</b> to delete the user. If successful, you should receive a response confirming the deletion, such as:
+                                  <p><img src="img/postman_5.png" alt="Postman Response" style="width: 100%; max-width: 600px;" /></p>
+                              </li>
+                          </ol>
+
+                          <h3>Recap of CRUD Operations in Postman:</h3>
+                          <ul>
+                              <li><b>Create (Add New User):</b> <code>POST /users</code></li>
+                              <li><b>Read (Get Specific User):</b> <code>GET /users/{username}</code></li>
+                              <li><b>Update (Edit User Details):</b> <code>PUT /users/{username}</code></li>
+                              <li><b>Delete (Remove User):</b> <code>DELETE /users/{username}</code></li>
+                          </ul>
+
+                        <h3>Testing Other Endpoints</h3>
+                        <p>In addition to basic requests, Postman offers functionalities that can make testing more efficient, especially when handling advanced features such as authentication and error debugging. Here are some key functionalities:</p>
+
+                        <ul>
+                            <li>
+                                <b>GET Requests:</b> Enter the endpoint URL (e.g., <code>/users</code> to fetch users, <code>/movies</code> to fetch movies, <code>/genres/{name}</code> to get genre details) and select <b>GET</b> as the request method. No request body is needed.
+                                <p><img src="img/Screenshot_8.png" alt="GET Request Example" style="width: 100%; max-width: 600px;" /></p>
+                                <p><img src="img/Screenshot_7.png" alt="GET Request Example" style="width: 100%; max-width: 600px;" /></p>
+                                <p><img src="img/Screenshot_10.png" alt="GET Request Example" style="width: 100%; max-width: 600px;" /></p>
+                            </li>
+                            <li>
+                                <b>POST Requests:</b> To add a movie to a user's favorites list, send a <b>POST</b> request to <code>http://yourapiurl/users/{username}/movies/{movieID}</code>, replacing <code>{username}</code> with the username and <code>{movieID}</code> with the movie's ID. Typically, no body data is needed for this endpoint—just enter the URL and click <b>Send</b>.
+                                <p><img src="img/Screenshot_6.png" alt="POST Request Example" style="width: 100%; max-width: 600px;" /></p>
+                            </li>
+                        </ul>
+                        <p>For other endpoints, such as retrieving movies or fetching genres, follow similar steps and adjust the request type and URL path according to the specific endpoint being tested.</p>
+
+                        <h3>Using Authentication Tokens</h3>
+                        <p>Many APIs require authentication to access certain resources. A common approach is using a <b>Bearer Token</b>, which is included in the request header to verify the user's identity. To set this up:</p>
+                        <ol>
+                            <li>
+                                <b>Obtain a Token:</b> First, obtain a token from the authentication endpoint (often a <code>/login</code> or <code>/auth</code> endpoint) by sending a request with valid login credentials. If successful, the server will return a token in the response body.
+                            </li>
+                            <li>
+                                <b>Add the Token to Your Requests:</b> In Postman, go to the <b>Authorization</b> tab, select <b>Bearer Token</b> from the dropdown, and paste your token in the token field.
+                                <p><img src="img/Screenshot_9.png" alt="Bearer Token Example" style="width: 100%; max-width: 600px;" /></p>
+                            </li>
+                        </ol>
+                        <p>Adding the token will authenticate your requests and grant access to protected endpoints, such as updating or deleting user data.</p>
+
+                        <h3>Handling Cross-Origin Resource Sharing (CORS) Issues</h3>
+                        <p>When testing APIs that are deployed on different domains, you may encounter <b>CORS (Cross-Origin Resource Sharing)</b> errors. These occur when the server restricts requests from origins outside its own domain, typically for security purposes. Here’s how to handle them:</p>
+                        <ul>
+                            <li><b>Configure CORS on the Server:</b> If you control the server, configure CORS settings to allow requests from specific domains, or for development purposes, set it to allow requests from <code>*</code> (any origin). Adjust these settings carefully to avoid exposing the API to unauthorized access.</li>
+                            <li><b>Use a Proxy:</b> If CORS issues persist and cannot be changed on the server, use a CORS proxy service to forward your requests to the server.</li>
+                        </ul>
+
+                        <h3>Interpreting the API Response</h3>
+                        <p>Once you send a request, the response section in Postman provides valuable information to help you debug and verify the success of your API calls. Key elements include:</p>
+                        <ul>
+                            <li><b>Status Codes:</b> These indicate the outcome of the request. Common codes include:
+                                <ul>
+                                    <li><b>200 OK:</b> The request was successful.</li>
+                                    <li><b>201 Created:</b> A new resource was successfully created (common for POST requests).</li>
+                                    <li><b>400 Bad Request:</b> The request was invalid, often due to incorrect data format.</li>
+                                    <li><b>401 Unauthorized:</b> The request lacks valid authentication credentials.</li>
+                                    <li><b>404 Not Found:</b> The endpoint or resource does not exist.</li>
+                                    <li><b>500 Internal Server Error:</b> An unexpected error occurred on the server.</li>
+                                </ul>
+                            </li>
+                            <li><b>Response Time:</b> Shows how long the server took to respond, which is useful for performance testing.</li>
+                            <li><b>Response Body:</b> Displays data returned by the API, which you can expand to view detailed information. For example, user details for a <code>GET /users</code> request or confirmation messages for <code>POST</code>, <code>PUT</code>, and <code>DELETE</code> requests.</li>
+                        </ul>
+                        <p>Use the response information to confirm the success of your requests, troubleshoot any errors, and verify the accuracy of returned data.</p>
+
+                        <h3>Additional Postman Features for Efficient Testing</h3>
+                        <p>Here are some advanced Postman features that can improve your testing experience:</p>
+                        <ul>
+                            <li><b>Environment Variables:</b> Set up variables (e.g., <code>baseUrl</code>, <code>username</code>) to reuse values across requests. This is especially useful for testing across different environments (e.g., development, staging, production).</li>
+                            <li><b>Collections:</b> Organize related API requests into collections, allowing you to save, reuse, and share groups of requests easily.</li>
+                            <li><b>Pre-request and Test Scripts:</b> Add JavaScript-based scripts to automate tasks like setting up authentication tokens or validating response data after requests are sent.</li>
+                        </ul>
+                        <p>By exploring these additional features, you can enhance your API testing process, streamline workflow, and better manage repetitive tasks.</p>`;
+                      break;
+
+                      case 'OVERVIEW':
+                      content = `
+                          <h2 class="content-title" id="default-content">Overview</h2>
+                          <p>Welcome to the MyFlix Movie API documentation. Here, you can find all the necessary information to interact with our API. Below is an overview of all available endpoints.</p>
+
+                          <table cellpadding="8" cellspacing="0">
+                              <thead>
+                                  <tr>
+                                      <th>Request</th>
+                                      <th>URL</th>
+                                      <th>HTTP Method</th>
+                                      <th>Response</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                        <tr>
+                                          <td>Returns a list of all movies</td>
+                                          <td>/movies</td>
+                                          <td>GET</td>
+                                          <td>A JSON object containing data about all movies</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Returns data about a single movie by title</td>
+                                          <td>/movies/title/:Title</td>
+                                          <td>GET</td>
+                                          <td>A JSON object containing data about the movie's description, genre, director, image URL, and whether it's featured or not</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Returns data about a genre by name</td>
+                                          <td>/movies/genre/:genreName</td>
+                                          <td>GET</td>
+                                          <td>A JSON object containing data about the genre's description</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Returns data about a director by name</td>
+                                          <td>/movies/directors/:directorName</td>
+                                          <td>GET</td>
+                                          <td>A JSON object containing data about the director's bio</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Returns a list of all users</td>
+                                          <td>/users</td>
+                                          <td>GET</td>
+                                          <td>A JSON object containing data about all users</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Returns data about a specific user</td>
+                                          <td>/users/:username</td>
+                                          <td>GET</td>
+                                          <td>A JSON object containing data about the user's username, email, password, birthday, and the list of favorite movies if there are any</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Allows new users to register</td>
+                                          <td>/users</td>
+                                          <td>POST</td>
+                                          <td>A JSON object indicating successful registration of the account</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Allows users to add a movie to their list of favorites</td>
+                                          <td>/users/:Username/movies/:MovieID</td>
+                                          <td>POST</td>
+                                          <td>A JSON object indicating that the movie has been added to the user's list of favorites</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Allows users to update their user info</td>
+                                          <td>/users/:Username</td>
+                                          <td>PUT</td>
+                                          <td>A JSON object indicating successful update of user info</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Allows users to remove a movie from their list of favorites</td>
+                                          <td>/users/:Username/movies/:MovieID</td>
+                                          <td>DELETE</td>
+                                          <td>A JSON obejct indicating that the movie has been removed from the user's list of favorites</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Allows existing users to deregister</td>
+                                          <td>/users/:Username</td>
+                                          <td>DELETE</td>
+                                          <td>A text message indicating successful deletion of the user account</td>
+                                      </tr>
+                              </tbody>
+                          </table>`;
+                      break; 
+                    }
+            contentDiv.innerHTML = content;
+        }
+    </script>
+</body>
 </html>

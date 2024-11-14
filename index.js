@@ -14,6 +14,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const { check, validationResult } = require("express-validator"); // Requiring express-validator for server side input protection against hacker attacks
 
+require('dotenv').config();
 /**
  * Sets up a static file server.
  */
@@ -62,7 +63,8 @@ let allowedOrigins = [
   'https://torbalansky.github.io',
   'https://movie-api-eqfh.vercel.app/',
   'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/',
-  'movie-api-eqfh-fqe1dt6ds-torbalanskys-projects.vercel.app'
+  'movie-api-eqfh-fqe1dt6ds-torbalanskys-projects.vercel.app',
+  'https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/'
 ];
 
 /**
@@ -504,7 +506,7 @@ app.use((err, req, res, next) => {
   });
 
 // listen for requests
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
 });
