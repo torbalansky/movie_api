@@ -8,7 +8,7 @@ Users can perform various actions, including registration, login, accessing movi
 
 The API is hosted at [https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/](https://movie-api-eqfh-mnccd0sxy-torbalansky.vercel.app/).
 
-For detailed information on API endpoints and CORS configurations, please visit the [Documentation Page](https://documentation-api-jihk.vercel.app/).
+For detailed information on API endpoints and CORS configurations, please visit the [Documentation Page](https://documentation-movie-api.vercel.app/).
 
 ### API Endpoints Overview
 
